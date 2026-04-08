@@ -1,0 +1,1 @@
+export * as shadcn from './factories'

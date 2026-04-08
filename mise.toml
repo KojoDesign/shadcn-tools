@@ -1,0 +1,17 @@
+[tools]
+bun = "latest"
+node = "lts"
+"npm:@typescript/native-preview" = "latest"
+
+[tasks]
+clean = "rm -rf dist"
+"build:lib" = "bun build src/index.ts --outdir dist --target node --format esm --packages external"
+"build:bin" = [
+  "bun build bin/build-registry.ts --outdir dist/bin --target node --format esm --packages external --banner '#!/usr/bin/env node'",
+  "chmod +x dist/bin/build-registry.js",
+]
+"build:dts" = "tsgo -p tsconfig.build.json"
+
+[tasks.build]
+depends = ["clean"]
+run = [{ tasks = ["build:lib", "build:bin", "build:dts"] }]

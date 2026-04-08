@@ -1,0 +1,31 @@
+{
+  "name": "@kojodesign/registry-tools",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "license": "MIT",
+  "bin": {
+    "build-registry": "./dist/bin/build-registry.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "mise run build"
+  },
+  "dependencies": {
+    "execa": "^9.6.1",
+    "get-tsconfig": "^4.13.7",
+    "jiti": "^2.6.1"
+  },
+  "peerDependencies": {
+    "shadcn": "^4.2.0",
+    "typescript": "^6.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2"
+  }
+}
