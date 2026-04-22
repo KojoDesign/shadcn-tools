@@ -12,7 +12,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KojoDesign/registry-tools.git"
+    "url": "git+https://github.com/KojoDesign/shadcn-tools.git"
   },
   "bin": {
     "build-registry": "./dist/bin/build-registry.js"
