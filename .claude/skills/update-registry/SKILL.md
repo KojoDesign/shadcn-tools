@@ -87,14 +87,14 @@ External package imports (not `@/` paths, not in the exclusion list). These must
 
 **Excluded packages** — never list these as npm `dependencies`:
 
-| Package | Reason |
-| --- | --- |
-| `react`, `react-dom` | Framework peer dep |
-| `radix-ui`, `@radix-ui/*` | Peer dep via shadcn |
-| `class-variance-authority` | Available via shadcn |
-| `clsx`, `tailwind-merge` | Come via `$utils` |
-| `@kojodesign/shadcn` | Build tool, not a runtime dep |
-| Imports from sibling files in same block dir | Internal to the block |
+| Package                                      | Reason                        |
+| -------------------------------------------- | ----------------------------- |
+| `react`, `react-dom`                         | Framework peer dep            |
+| `radix-ui`, `@radix-ui/*`                    | Peer dep via shadcn           |
+| `class-variance-authority`                   | Available via shadcn          |
+| `clsx`, `tailwind-merge`                     | Come via `$utils`             |
+| `@kojodesign/shadcn-tools                    | Build tool, not a runtime dep |
+| Imports from sibling files in same block dir | Internal to the block         |
 
 Check the project's `package.json` `peerDependencies` for any additional exclusions specific to the consumer.
 
@@ -102,11 +102,11 @@ Check the project's `package.json` `peerDependencies` for any additional exclusi
 
 `@/` path alias imports map to local registry items using the `$name` shorthand. The name is derived from the filename (without extension) or directory name:
 
-| Import pattern | Registry dep |
-| --- | --- |
-| `@/components/ui/<name>` | `$<name>` |
-| `@/lib/<name>` | `$<name>` |
-| `@/hooks/<name>` | `$<name>` |
+| Import pattern           | Registry dep |
+| ------------------------ | ------------ |
+| `@/components/ui/<name>` | `$<name>`    |
+| `@/lib/<name>`           | `$<name>`    |
+| `@/hooks/<name>`         | `$<name>`    |
 
 **Block-internal imports are excluded** — if two files are both in the same block directory and both listed in `files`, imports between them do not need a `$` dep.
 
@@ -119,7 +119,7 @@ When a component **shares the same name as an official upstream shadcn component
 
 ```ts
 // field.registry.ts — overrides upstream shadcn "field"
-registryDependencies: ["field", "$utils", "$label"]
+registryDependencies: ["field", "$utils", "$label"];
 //                     ^^^^^^^ bare name = upstream override
 ```
 
@@ -159,11 +159,11 @@ Always check style registry files (e.g., `global.registry.ts`) against their cor
 
 Read both the CSS file and its `.registry.ts` sidecar. The registry's `cssVars` must reflect the CSS exactly:
 
-| CSS location | Registry key |
-| --- | --- |
+| CSS location                   | Registry key           |
+| ------------------------------ | ---------------------- |
 | `@theme inline { --foo: val }` | `cssVars.theme["foo"]` |
-| `:root { --foo: val }` | `cssVars.light["foo"]` |
-| `.dark { --foo: val }` | `cssVars.dark["foo"]` |
+| `:root { --foo: val }`         | `cssVars.light["foo"]` |
+| `.dark { --foo: val }`         | `cssVars.dark["foo"]`  |
 
 **What to include:** Custom design tokens only — text sizes, radius overrides, shadows, fonts, semantic color tokens (`--success`, `--warning`, `--brand`, `--highlight`), and any other custom CSS variables defined directly in the CSS.
 

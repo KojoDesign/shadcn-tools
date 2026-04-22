@@ -4,7 +4,7 @@ This file provides guidance to coding agents like Claude Code, Codex, and Cursor
 
 ## What This Is
 
-`@kojodesign/shadcn` — a TypeScript library and CLI for building [shadcn registries](https://ui.schema.com/docs/registry). It provides typed helpers for defining registry items and files, resolves inter-registry dependencies, and outputs `registry.json` (optionally running `shadcn build` to produce per-item JSON files).
+`@kojodesign/shadcn-tools — a TypeScript library and CLI for building [shadcn registries](https://ui.schema.com/docs/registry). It provides typed helpers for defining registry items and files, resolves inter-registry dependencies, and outputs `registry.json`(optionally running`shadcn build` to produce per-item JSON files).
 
 ## Build
 
@@ -15,6 +15,7 @@ mise run build        # or: bun run build
 ```
 
 The build pipeline (defined in `mise.toml`):
+
 1. Bundles `src/index.ts` → `dist/index.js` (library entry)
 2. Bundles `bin/build-registry.ts` → `dist/bin/build-registry.js` (CLI entry, with shebang)
 3. Runs `tsgo -p tsconfig.build.json` to emit `.d.ts` declaration files
@@ -33,7 +34,7 @@ Fixtures live in `test/fixtures/`. There are suites for `build-registry`, `files
 
 ## Architecture
 
-**Library (`src/`)** — exported as `@kojodesign/shadcn`:
+**Library (`src/`)** — exported as `@kojodesign/shadcn-tools:
 
 - `types.ts` — Core types re-exported from `shadcn/schema` plus `Registry`, `RegistryItemFile`, `FileOpts`.
 - `helpers.ts` — Factory functions: `defineItem(type)`, `defineFile(type)`, and `defineRegistry(registry)`. `defineRegistry` handles dependency resolution: `$name` for same-registry refs, `@registry/name` for cross-registry refs.
@@ -58,14 +59,14 @@ Fixtures live in `test/fixtures/`. There are suites for `build-registry`, `files
 
 ## Consumer Usage Patterns
 
-This section documents how downstream registries use the `@kojodesign/shadcn` API, so changes here can be evaluated against real usage.
+This section documents how downstream registries use the `@kojodesign/shadcn-tools API, so changes here can be evaluated against real usage.
 
 ### Importing
 
 Consumers import as `{ shadcn }`:
 
 ```ts
-import { shadcn } from "@kojodesign/shadcn";
+import { shadcn } from "@kojodesign/shadcn-tools;
 ```
 
 ### Sidecar `.registry.ts` Files
@@ -79,22 +80,22 @@ Each component, hook, lib, or block in a consuming registry has a sidecar `.regi
 
 ### Item Helpers
 
-| Helper | Registry type | Use for |
-|--------|--------------|---------|
-| `schema.ui(...)` | `registry:ui` | UI components |
+| Helper              | Registry type    | Use for         |
+| ------------------- | ---------------- | --------------- |
+| `schema.ui(...)`    | `registry:ui`    | UI components   |
 | `schema.block(...)` | `registry:block` | Composed blocks |
-| `schema.hook(...)` | `registry:hook` | Hooks |
-| `schema.lib(...)` | `registry:lib` | Utilities |
+| `schema.hook(...)`  | `registry:hook`  | Hooks           |
+| `schema.lib(...)`   | `registry:lib`   | Utilities       |
 
 ### File Helpers
 
-| Helper | Use for |
-|--------|---------|
+| Helper                         | Use for                |
+| ------------------------------ | ---------------------- |
 | `schema.files.component(path)` | `.tsx` component files |
-| `schema.files.hook(path)` | `.ts` hook files |
-| `schema.files.lib(path)` | `.ts` lib files |
-| `schema.files.ui(path)` | UI component files |
-| `schema.files.block(path)` | Block component files |
+| `schema.files.hook(path)`      | `.ts` hook files       |
+| `schema.files.lib(path)`       | `.ts` lib files        |
+| `schema.files.ui(path)`        | UI component files     |
+| `schema.files.block(path)`     | Block component files  |
 
 ### Dependency Conventions
 
@@ -111,7 +112,7 @@ Each component, hook, lib, or block in a consuming registry has a sidecar `.regi
 All `.registry.ts` items are collected into a root `registry.ts` file using `schema.registry()`:
 
 ```ts
-import { shadcn } from "@kojodesign/shadcn";
+import { shadcn } from "@kojodesign/shadcn-tools;
 
 export default schema.registry({
   name: "my-registry",

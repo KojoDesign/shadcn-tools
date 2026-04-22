@@ -21,7 +21,7 @@ Create sidecar `.registry.ts` files next to your components:
 
 ```ts
 // src/components/ui/button.registry.ts
-import { shadcn } from "@kojodesign/shadcn";
+import { shadcn } from "@kojodesign/shadcn-tools;
 
 export default schema.ui({
   name: "button",
@@ -33,31 +33,31 @@ export default schema.ui({
 
 ### Item helpers
 
-| Helper | Registry type |
-| --- | --- |
-| `schema.ui(...)` | `registry:ui` |
-| `schema.block(...)` | `registry:block` |
-| `schema.hook(...)` | `registry:hook` |
-| `schema.lib(...)` | `registry:lib` |
+| Helper                  | Registry type        |
+| ----------------------- | -------------------- |
+| `schema.ui(...)`        | `registry:ui`        |
+| `schema.block(...)`     | `registry:block`     |
+| `schema.hook(...)`      | `registry:hook`      |
+| `schema.lib(...)`       | `registry:lib`       |
 | `schema.component(...)` | `registry:component` |
-| `schema.style(...)` | `registry:style` |
-| `schema.theme(...)` | `registry:theme` |
-| `schema.font(...)` | `registry:font` |
-| `schema.base(...)` | `registry:base` |
-| `schema.page(...)` | `registry:page` |
-| `schema.file(...)` | `registry:file` |
-| `schema.item(...)` | `registry:item` |
+| `schema.style(...)`     | `registry:style`     |
+| `schema.theme(...)`     | `registry:theme`     |
+| `schema.font(...)`      | `registry:font`      |
+| `schema.base(...)`      | `registry:base`      |
+| `schema.page(...)`      | `registry:page`      |
+| `schema.file(...)`      | `registry:file`      |
+| `schema.item(...)`      | `registry:item`      |
 
 ### File helpers
 
-| Helper | Use for |
-| --- | --- |
-| `schema.files.component(path)` | Component files |
-| `schema.files.ui(path)` | UI component files |
-| `schema.files.block(path)` | Block files |
-| `schema.files.hook(path)` | Hook files |
-| `schema.files.lib(path)` | Lib/utility files |
-| `schema.files.page(path, { target })` | Route/page files |
+| Helper                                | Use for                 |
+| ------------------------------------- | ----------------------- |
+| `schema.files.component(path)`        | Component files         |
+| `schema.files.ui(path)`               | UI component files      |
+| `schema.files.block(path)`            | Block files             |
+| `schema.files.hook(path)`             | Hook files              |
+| `schema.files.lib(path)`              | Lib/utility files       |
+| `schema.files.page(path, { target })` | Route/page files        |
 | `schema.files.file(path, { target })` | Misc files (env/config) |
 
 `@/` paths are resolved to `src/` automatically.
@@ -66,7 +66,7 @@ export default schema.ui({
 
 ```ts
 // registry.ts
-import { shadcn } from "@kojodesign/shadcn";
+import { shadcn } from "@kojodesign/shadcn-tools;
 import button from "./src/components/ui/button.registry.ts";
 import utils from "./src/lib/utils.registry.ts";
 
@@ -122,7 +122,7 @@ build-registry registry.ts -o public/r
 
 ## Agent Skills
 
-This package includes an `update-registry` skill for Claude Code that audits `.registry.ts` files — checking dependencies, registry dependencies, file arrays, style/CSS sync, and missing sidecar files. Install it into any project that uses `@kojodesign/shadcn`:
+This package includes an `update-registry` skill for Claude Code that audits `.registry.ts` files — checking dependencies, registry dependencies, file arrays, style/CSS sync, and missing sidecar files. Install it into any project that uses `@kojodesign/shadcn-tools:
 
 ```bash
 npx skills add @kojodesign/shadcn
