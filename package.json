@@ -15,7 +15,7 @@
     "url": "git+https://github.com/KojoDesign/shadcn-tools.git"
   },
   "bin": {
-    "build-registry": "./dist/bin/build-registry.js"
+    "build-registry": "dist/bin/build-registry.js"
   },
   "files": [
     "dist"
