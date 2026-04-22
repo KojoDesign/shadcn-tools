@@ -1,4 +1,4 @@
-import { shadcn } from "../../../src/index.ts";
+import { schema } from "../../../src/index.ts";
 
 const a = schema.ui({ name: "button", files: [] });
 const b = schema.ui({ name: "button", files: [] });

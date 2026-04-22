@@ -1,4 +1,4 @@
-import { shadcn } from "../../../src/index.ts";
+import { schema } from "../../../src/index.ts";
 
 export default schema.registry({
   name: "named",

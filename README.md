@@ -21,7 +21,7 @@ Create sidecar `.registry.ts` files next to your components:
 
 ```ts
 // src/components/ui/button.registry.ts
-import { shadcn } from "@kojodesign/shadcn-tools;
+import { schema } from "@kojodesign/shadcn-tools;
 
 export default schema.ui({
   name: "button",
@@ -66,7 +66,7 @@ export default schema.ui({
 
 ```ts
 // registry.ts
-import { shadcn } from "@kojodesign/shadcn-tools;
+import { schema } from "@kojodesign/shadcn-tools;
 import button from "./src/components/ui/button.registry.ts";
 import utils from "./src/lib/utils.registry.ts";
 

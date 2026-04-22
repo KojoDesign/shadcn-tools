@@ -1,4 +1,4 @@
-import { shadcn } from "../../../src/index.ts";
+import { schema } from "../../../src/index.ts";
 
 const button = schema.ui({
   name: "button",

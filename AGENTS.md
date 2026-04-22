@@ -63,10 +63,10 @@ This section documents how downstream registries use the `@kojodesign/shadcn-too
 
 ### Importing
 
-Consumers import as `{ shadcn }`:
+Consumers import as `{ schema }`:
 
 ```ts
-import { shadcn } from "@kojodesign/shadcn-tools;
+import { schema } from "@kojodesign/shadcn-tools;
 ```
 
 ### Sidecar `.registry.ts` Files
@@ -112,7 +112,7 @@ Each component, hook, lib, or block in a consuming registry has a sidecar `.regi
 All `.registry.ts` items are collected into a root `registry.ts` file using `schema.registry()`:
 
 ```ts
-import { shadcn } from "@kojodesign/shadcn-tools;
+import { schema } from "@kojodesign/shadcn-tools;
 
 export default schema.registry({
   name: "my-registry",

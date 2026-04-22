@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { shadcn } from "../src/index.ts";
+import { schema } from "../src/index.ts";
 
 describe("public API surface", () => {
   test("exposes item factories on shadcn", () => {
