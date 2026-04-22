@@ -4,7 +4,7 @@ This file provides guidance to coding agents like Claude Code, Codex, and Cursor
 
 ## What This Is
 
-`@kojodesign/shadcn` — a TypeScript library and CLI for building [shadcn registries](https://ui.shadcn.com/docs/registry). It provides typed helpers for defining registry items and files, resolves inter-registry dependencies, and outputs `registry.json` (optionally running `shadcn build` to produce per-item JSON files).
+`@kojodesign/shadcn` — a TypeScript library and CLI for building [shadcn registries](https://ui.schema.com/docs/registry). It provides typed helpers for defining registry items and files, resolves inter-registry dependencies, and outputs `registry.json` (optionally running `shadcn build` to produce per-item JSON files).
 
 ## Build
 
@@ -20,7 +20,16 @@ The build pipeline (defined in `mise.toml`):
 3. Runs `tsgo -p tsconfig.build.json` to emit `.d.ts` declaration files
 4. `chmod +x` on the CLI output
 
-There are no tests or lint commands configured.
+## Tests
+
+Tests live in `test/` and run with **bun test**:
+
+```sh
+mise run test          # or: bun run test / bun test
+mise run test:watch    # watch mode
+```
+
+Fixtures live in `test/fixtures/`. There are suites for `build-registry`, `files`, `helpers`, `items`, and the public `index`.
 
 ## Architecture
 
@@ -36,7 +45,7 @@ There are no tests or lint commands configured.
 
 - Usage: `build-registry <path/to/registry.ts> [-o <output-dir>]`
 - Loads the registry definition file via **jiti** (supports TypeScript, resolves tsconfig paths as aliases).
-- Expects a `default` or `registry` named export.
+- Expects a default export. Named `registry` exports are not supported — use `export default` instead.
 - Writes `registry.json` next to the input file.
 - If `-o` is given, runs `npx shadcn build` to produce individual item JSON files.
 
@@ -72,39 +81,39 @@ Each component, hook, lib, or block in a consuming registry has a sidecar `.regi
 
 | Helper | Registry type | Use for |
 |--------|--------------|---------|
-| `shadcn.ui(...)` | `registry:ui` | UI components |
-| `shadcn.block(...)` | `registry:block` | Composed blocks |
-| `shadcn.hook(...)` | `registry:hook` | Hooks |
-| `shadcn.lib(...)` | `registry:lib` | Utilities |
+| `schema.ui(...)` | `registry:ui` | UI components |
+| `schema.block(...)` | `registry:block` | Composed blocks |
+| `schema.hook(...)` | `registry:hook` | Hooks |
+| `schema.lib(...)` | `registry:lib` | Utilities |
 
 ### File Helpers
 
 | Helper | Use for |
 |--------|---------|
-| `shadcn.files.component(path)` | `.tsx` component files |
-| `shadcn.files.hook(path)` | `.ts` hook files |
-| `shadcn.files.lib(path)` | `.ts` lib files |
-| `shadcn.files.ui(path)` | UI component files |
-| `shadcn.files.block(path)` | Block component files |
+| `schema.files.component(path)` | `.tsx` component files |
+| `schema.files.hook(path)` | `.ts` hook files |
+| `schema.files.lib(path)` | `.ts` lib files |
+| `schema.files.ui(path)` | UI component files |
+| `schema.files.block(path)` | Block component files |
 
 ### Dependency Conventions
 
 **`registryDependencies`** — references to other registry items:
 
 - `$name` — same-registry item. Resolved at build time to `${homepage}/r/name.json`.
-- `@registry/name` — cross-registry reference. Resolved via the `registries` map passed to `shadcn.registry()`.
+- `@registry/name` — cross-registry reference. Resolved via the `registries` map passed to `schema.registry()`.
 - Bare names (e.g., `"button"`) — upstream shadcn base components.
 
 **`dependencies`** — only external npm packages actually imported by the component. Framework peer deps (`react`, `radix-ui`, `class-variance-authority`, `clsx`, `tailwind-merge`) are excluded.
 
 ### Registry Aggregation
 
-All `.registry.ts` items are collected into a root `registry.ts` file using `shadcn.registry()`:
+All `.registry.ts` items are collected into a root `registry.ts` file using `schema.registry()`:
 
 ```ts
 import { shadcn } from "@kojodesign/shadcn";
 
-export default shadcn.registry({
+export default schema.registry({
   name: "my-registry",
   homepage: "https://example.com",
   registries: { other: "https://other.example.com" },

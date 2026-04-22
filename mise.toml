@@ -5,6 +5,8 @@ node = "lts"
 
 [tasks]
 clean = "rm -rf dist"
+test = "bun test"
+"test:watch" = "bun test --watch"
 "build:lib" = "bun build src/index.ts --outdir dist --target node --format esm --packages external"
 "build:bin" = [
   "bun build bin/build-registry.ts --outdir dist/bin --target node --format esm --packages external --banner '#!/usr/bin/env node'",

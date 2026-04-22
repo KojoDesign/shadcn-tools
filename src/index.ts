@@ -1,1 +1,1 @@
-export * as shadcn from './factories'
+export * as schema from "./factories/index.ts";

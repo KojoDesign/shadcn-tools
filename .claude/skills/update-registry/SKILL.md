@@ -11,7 +11,7 @@ Audits `.registry.ts` sidecar files against their source files and validates cor
 
 Before auditing, determine the project structure:
 
-1. Find the root `registry.ts` file (the one that calls `shadcn.registry()`).
+1. Find the root `registry.ts` file (the one that calls `schema.registry()`).
 2. From its imports, identify the source directories for components, blocks, hooks, libs, and styles.
 3. Identify the `components.json` or shadcn config to understand the `@/` path alias mapping.
 4. Locate any style registry files (e.g., `global.registry.ts`) and their corresponding CSS files.
@@ -69,13 +69,13 @@ This returns only `.registry.ts` files added or modified on the current branch.
 
 Read the `.registry.ts` file to extract:
 
-- `files` — array of file helper calls (`shadcn.files.component(...)`, `shadcn.files.hook(...)`, etc.)
+- `files` — array of file helper calls (`schema.files.component(...)`, `schema.files.hook(...)`, etc.)
 - `dependencies` — npm packages listed
 - `registryDependencies` — local `$name` refs and external names
 
 Then read **all source files** referenced by that registry item.
 
-For **blocks** (`shadcn.block`), also scan the entire block directory for any `.tsx`/`.ts` files not yet listed in `files`.
+For **blocks** (`schema.block`), also scan the entire block directory for any `.tsx`/`.ts` files not yet listed in `files`.
 
 ## Step 4: Analyze Source File Imports
 
@@ -125,7 +125,7 @@ registryDependencies: ["field", "$utils", "$label"]
 
 ### `files` array completeness (blocks only)
 
-For `shadcn.block` items, every `.tsx` and `.ts` file inside the block directory must appear in `files`. Check the directory on disk against what's listed.
+For `schema.block` items, every `.tsx` and `.ts` file inside the block directory must appear in `files`. Check the directory on disk against what's listed.
 
 ## Step 5: Report Issues
 

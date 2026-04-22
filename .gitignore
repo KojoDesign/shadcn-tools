@@ -6,6 +6,9 @@ out
 dist
 *.tgz
 
+# test fixture outputs (written transiently by the CLI suite)
+test/fixtures/**/registry.json
+
 # code coverage
 coverage
 *.lcov

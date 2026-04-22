@@ -1,6 +1,6 @@
 {
-  "name": "@kojodesign/registry-tools",
-  "version": "0.1.0",
+  "name": "@kojodesign/shadcn-tools",
+  "version": "0.0.1",
   "type": "module",
   "exports": {
     ".": {
@@ -8,24 +8,41 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "sideEffects": "none",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KojoDesign/registry-tools.git"
+  },
   "bin": {
     "build-registry": "./dist/bin/build-registry.js"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
-    "build": "mise run build"
+    "build": "mise run build",
+    "test": "mise run test"
   },
   "dependencies": {
     "execa": "^9.6.1",
-    "get-tsconfig": "^4.13.7",
-    "jiti": "^2.6.1"
+    "get-tsconfig": "^4.14.0",
+    "jiti": "^2.6.1",
+    "package-manager-detector": "^1.6.0"
   },
   "peerDependencies": {
-    "shadcn": "^4.2.0",
-    "typescript": "^6.0.2"
+    "shadcn": "^4.4.0",
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "@types/node": "^25.5.2"
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@types/node": "^25.6.0",
+    "semantic-release": "^24.2.0",
+    "zod": "^4.3.6"
   }
 }

@@ -1,6 +1,6 @@
 # @kojodesign/shadcn
 
-Type-safe helpers and a CLI for building [shadcn registries](https://ui.shadcn.com/docs/registry).
+Type-safe helpers and a CLI for building [shadcn registries](https://ui.schema.com/docs/registry).
 
 ## Install
 
@@ -23,9 +23,9 @@ Create sidecar `.registry.ts` files next to your components:
 // src/components/ui/button.registry.ts
 import { shadcn } from "@kojodesign/shadcn";
 
-export default shadcn.ui({
+export default schema.ui({
   name: "button",
-  files: [shadcn.files.ui("@/components/ui/button.tsx")],
+  files: [schema.files.ui("@/components/ui/button.tsx")],
   dependencies: ["lucide-react"],
   registryDependencies: ["$utils"],
 });
@@ -35,25 +35,30 @@ export default shadcn.ui({
 
 | Helper | Registry type |
 | --- | --- |
-| `shadcn.ui(...)` | `registry:ui` |
-| `shadcn.block(...)` | `registry:block` |
-| `shadcn.hook(...)` | `registry:hook` |
-| `shadcn.lib(...)` | `registry:lib` |
-| `shadcn.component(...)` | `registry:component` |
-| `shadcn.style(...)` | `registry:style` |
-| `shadcn.theme(...)` | `registry:theme` |
-| `shadcn.example(...)` | `registry:example` |
-| `shadcn.font(...)` | `registry:font` |
+| `schema.ui(...)` | `registry:ui` |
+| `schema.block(...)` | `registry:block` |
+| `schema.hook(...)` | `registry:hook` |
+| `schema.lib(...)` | `registry:lib` |
+| `schema.component(...)` | `registry:component` |
+| `schema.style(...)` | `registry:style` |
+| `schema.theme(...)` | `registry:theme` |
+| `schema.font(...)` | `registry:font` |
+| `schema.base(...)` | `registry:base` |
+| `schema.page(...)` | `registry:page` |
+| `schema.file(...)` | `registry:file` |
+| `schema.item(...)` | `registry:item` |
 
 ### File helpers
 
 | Helper | Use for |
 | --- | --- |
-| `shadcn.files.component(path)` | Component files |
-| `shadcn.files.ui(path)` | UI component files |
-| `shadcn.files.block(path)` | Block files |
-| `shadcn.files.hook(path)` | Hook files |
-| `shadcn.files.lib(path)` | Lib/utility files |
+| `schema.files.component(path)` | Component files |
+| `schema.files.ui(path)` | UI component files |
+| `schema.files.block(path)` | Block files |
+| `schema.files.hook(path)` | Hook files |
+| `schema.files.lib(path)` | Lib/utility files |
+| `schema.files.page(path, { target })` | Route/page files |
+| `schema.files.file(path, { target })` | Misc files (env/config) |
 
 `@/` paths are resolved to `src/` automatically.
 
@@ -65,7 +70,7 @@ import { shadcn } from "@kojodesign/shadcn";
 import button from "./src/components/ui/button.registry.ts";
 import utils from "./src/lib/utils.registry.ts";
 
-export default shadcn.registry({
+export default schema.registry({
   name: "my-registry",
   homepage: "https://my-registry.example.com",
   items: [button, utils],
@@ -78,14 +83,14 @@ export default shadcn.registry({
 - **`@registry/name`** — cross-registry reference. Resolved via the `registries` map:
 
   ```ts
-  shadcn.registry({
+  schema.registry({
     name: "my-registry",
     homepage: "https://mine.example.com",
     registries: { other: "https://other.example.com" },
     items: [
-      shadcn.ui({
+      schema.ui({
         name: "fancy-button",
-        files: [shadcn.files.ui("@/components/ui/fancy-button.tsx")],
+        files: [schema.files.ui("@/components/ui/fancy-button.tsx")],
         registryDependencies: ["$utils", "@other/card"],
       }),
     ],
@@ -97,16 +102,19 @@ export default shadcn.registry({
 ## CLI
 
 ```bash
-build-registry <path/to/registry.ts> [-o <output-dir>]
+build-registry <path/to/registry.(ts|js)> [-o <output-dir>]
 ```
 
-1. Loads the registry file (TypeScript supported via jiti, respects tsconfig paths)
+1. Loads the registry file via jiti (TypeScript and plain JavaScript both supported; tsconfig paths are respected when present)
 2. Writes `registry.json` next to the input file
 3. If `-o` is provided, runs `shadcn build` to produce individual item JSON files
 
 ```bash
-# Just generate registry.json
+# TypeScript
 build-registry registry.ts
+
+# Plain JavaScript (ESM)
+build-registry registry.js
 
 # Generate registry.json + per-item files in public/r/
 build-registry registry.ts -o public/r
