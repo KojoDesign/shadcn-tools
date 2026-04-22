@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/KojoDesign/shadcn-tools/compare/v1.0.0...v1.0.1) (2026-04-22)
+
+
+### Bug Fixes
+
+* **ci:** npm issues [skip ci] ([ac4564c](https://github.com/KojoDesign/shadcn-tools/commit/ac4564cb1cfea1e71bcb3092ca9f3357831944ee))
+
 # 1.0.0 (2026-04-22)
 
 
