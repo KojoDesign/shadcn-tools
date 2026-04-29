@@ -7,12 +7,12 @@ import type {
   RegistryDefinition,
   FileOpts,
   RegistryItemOf,
+  RegistryItemFileOf,
 } from "../types.ts";
 import { resolveDependency } from "../utils.ts";
 import { SCHEMA_URL } from "../consts.ts";
 
-const resolvePath = (path: string) =>
-  path.startsWith("@/") ? "src/" + path.slice(2) : path;
+const resolvePath = (path: string) => (path.startsWith("@/") ? "src/" + path.slice(2) : path);
 
 export function defineItem<T extends RegistryItem["type"]>(type: T) {
   return (item: Omit<RegistryItemOf<T>, "type">): RegistryItemOf<T> =>
@@ -20,18 +20,14 @@ export function defineItem<T extends RegistryItem["type"]>(type: T) {
 }
 
 export function defineFile<T extends RegistryItemFile["type"]>(type: T) {
-  type Rest =
-    T extends FileOpts<T> ? [opts: FileOpts<T>] : [opts?: FileOpts<T>];
+  type Rest = T extends FileOpts<T> ? [opts: FileOpts<T>] : [opts?: FileOpts<T>];
 
-  return (
-    path: string,
-    ...rest: Rest
-  ): Extract<RegistryItemFile, { type: T }> =>
+  return (path: string, ...rest: Rest): RegistryItemFileOf<T> =>
     ({
       path: resolvePath(path),
       type,
       ...(rest[0] as FileOpts<T> | undefined),
-    }) as Extract<RegistryItemFile, { type: T }>;
+    }) as RegistryItemFileOf<T>;
 }
 
 export function defineRegistry(registry: RegistryDefinition): Registry {

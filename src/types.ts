@@ -6,8 +6,20 @@ export type RegistryItemFile = NonNullable<RegistryItem["files"]>[number];
 
 export type RegistryItemFileType = RegistryItemFile["type"];
 
-export type FileOpts<T extends RegistryItemFileType = RegistryItemFileType> =
-  Omit<Extract<RegistryItemFile, { type: T }>, "path" | "type">;
+type NarrowByType<U, T> = U extends infer R
+  ? R extends { type: infer V }
+    ? T extends V
+      ? Omit<R, "type"> & { type: T }
+      : never
+    : never
+  : never;
+
+export type RegistryItemFileOf<T extends RegistryItemFileType> = NarrowByType<RegistryItemFile, T>;
+
+export type FileOpts<T extends RegistryItemFileType = RegistryItemFileType> = Omit<
+  RegistryItemFileOf<T>,
+  "path" | "type"
+>;
 
 export interface Registry {
   $schema: string;
@@ -22,7 +34,4 @@ export interface RegistryDefinition extends Omit<Registry, "$schema"> {
   registries?: Record<string, string>;
 }
 
-export type RegistryItemOf<T extends RegistryItem["type"]> = Extract<
-  RegistryItem,
-  { type: T }
->;
+export type RegistryItemOf<T extends RegistryItem["type"]> = NarrowByType<RegistryItem, T>;

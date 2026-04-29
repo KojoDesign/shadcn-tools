@@ -33,9 +33,7 @@ async function runCli(args: string[]): Promise<RunResult> {
 const generated: string[] = [];
 
 afterEach(async () => {
-  await Promise.all(
-    generated.splice(0).map((p) => rm(p, { force: true, recursive: true })),
-  );
+  await Promise.all(generated.splice(0).map((p) => rm(p, { force: true, recursive: true })));
 });
 
 describe("build-registry CLI", () => {
@@ -60,16 +58,12 @@ describe("build-registry CLI", () => {
         {
           type: "registry:ui",
           name: "button",
-          files: [
-            { path: "src/components/ui/button.tsx", type: "registry:ui" },
-          ],
+          files: [{ path: "src/components/ui/button.tsx", type: "registry:ui" }],
         },
         {
           type: "registry:block",
           name: "hero",
-          files: [
-            { path: "src/components/blocks/hero.tsx", type: "registry:block" },
-          ],
+          files: [{ path: "src/components/blocks/hero.tsx", type: "registry:block" }],
           registryDependencies: ["https://example.com/r/button.json"],
         },
       ],
@@ -160,10 +154,7 @@ describe("build-registry CLI", () => {
   });
 
   test("exits non-zero when homepage is missing (schema-enforced)", async () => {
-    const fixture = resolve(
-      here,
-      "fixtures/invalid-missing-homepage/registry.ts",
-    );
+    const fixture = resolve(here, "fixtures/invalid-missing-homepage/registry.ts");
     const result = await runCli([fixture]);
 
     expect(result.exitCode).not.toBe(0);
@@ -172,10 +163,7 @@ describe("build-registry CLI", () => {
   });
 
   test("exits non-zero when name is the wrong type (schema-enforced)", async () => {
-    const fixture = resolve(
-      here,
-      "fixtures/invalid-wrong-name-type/registry.ts",
-    );
+    const fixture = resolve(here, "fixtures/invalid-wrong-name-type/registry.ts");
     const result = await runCli([fixture]);
 
     expect(result.exitCode).not.toBe(0);
@@ -184,10 +172,7 @@ describe("build-registry CLI", () => {
   });
 
   test("exits non-zero when the registry builder throws (duplicate names)", async () => {
-    const fixture = resolve(
-      here,
-      "fixtures/invalid-duplicate-names/registry.ts",
-    );
+    const fixture = resolve(here, "fixtures/invalid-duplicate-names/registry.ts");
     const result = await runCli([fixture]);
 
     expect(result.exitCode).not.toBe(0);

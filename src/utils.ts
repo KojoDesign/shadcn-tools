@@ -38,9 +38,7 @@ export function resolveDependency(
   const name = dep.slice(1);
 
   if (!ctx.names.has(name)) {
-    throw new Error(
-      `[${ctx.itemName}] registryDependency "$${name}" not found in registry items`,
-    );
+    throw new Error(`[${ctx.itemName}] registryDependency "$${name}" not found in registry items`);
   }
 
   return joinUrl(ctx.homepage, `r/${name}.json`);

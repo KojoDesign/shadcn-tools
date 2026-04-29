@@ -1,9 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import {
-  defineItem,
-  defineFile,
-  defineRegistry,
-} from "../src/factories/define.ts";
+import { defineItem, defineFile, defineRegistry } from "../src/factories/define.ts";
 
 describe("defineItem", () => {
   test("injects the given type into the item", () => {
@@ -138,9 +134,7 @@ describe("defineRegistry", () => {
     });
 
     const hero = reg.items.find((i) => i.name === "hero")!;
-    expect(hero.registryDependencies).toEqual([
-      "https://example.com/r/button.json",
-    ]);
+    expect(hero.registryDependencies).toEqual(["https://example.com/r/button.json"]);
   });
 
   test("resolves @registry/name via the registries map", () => {
@@ -158,9 +152,7 @@ describe("defineRegistry", () => {
       ],
     });
 
-    expect(reg.items[0]!.registryDependencies).toEqual([
-      "https://ui.example.com/r/card.json",
-    ]);
+    expect(reg.items[0]!.registryDependencies).toEqual(["https://ui.example.com/r/card.json"]);
   });
 
   test("passes through @unknown/name unchanged when registry isn't listed", () => {

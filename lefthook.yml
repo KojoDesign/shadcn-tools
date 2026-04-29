@@ -1,0 +1,7 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - run: mise lint {staged_files}
+      glob: "*.{js,ts,jsx,tsx}"
+    - run: mise format {staged_files}
+      glob: "*.{js,ts,jsx,tsx}"
