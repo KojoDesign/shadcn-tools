@@ -1,6 +1,12 @@
-# @kojodesign/shadcn
+<div align="center">
+  <img src="logo.svg" width="40px" alt="shadcn logo" />
+  <br/>
 
-Type-safe helpers and a CLI for building [shadcn registries](https://ui.schema.com/docs/registry).
+# @kojodesign/shadcn-tools
+
+  Type-safe helpers and a CLI for building [shadcn registries](https://ui.schema.com/docs/registry).
+</div>
+
 
 ## Install
 
@@ -125,7 +131,7 @@ build-registry registry.ts -o public/r
 This package includes an `update-registry` skill for Claude Code that audits `.registry.ts` files — checking dependencies, registry dependencies, file arrays, style/CSS sync, and missing sidecar files. Install it into any project that uses `@kojodesign/shadcn-tools:
 
 ```bash
-npx skills add @kojodesign/shadcn
+npx skills add @kojodesign/shadcn-tools
 ```
 
 Then use it in Claude Code with `/update-registry` or by asking Claude to audit your registry files.
