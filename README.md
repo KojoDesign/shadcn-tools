@@ -1,41 +1,79 @@
 <div align="center">
-  <img src="logo.svg" width="40px" alt="shadcn logo" />
+  <img src="logo.svg" width="48px" alt="shadcn logo" />
+
   <br/>
 
-# @kojodesign/shadcn-tools
+# shadcn-tools
 
   Type-safe helpers and a CLI for building [shadcn registries](https://ui.schema.com/docs/registry).
 </div>
 
+## Why?
 
-## Install
+While [shadcn/ui](https://ui.shadcn.com) is a fantastic tool for distributing design systems, having to manually maintain `.json` files alongside your components can subject to falling out of sync with your codebase. This repo contains small utilities to make it easier to author typesafe registries schemas directly alongside the components they reference.
 
-```bash
-bun add @kojodesign/shadcn
-yarn add @kojodesign/shadcn
-npm install @kojodesign/shadcn
-pnpm install @kojodesign/shadcn
-```
+## How It Works
 
-Peer dependencies: `shadcn >= 4`, `typescript >= 5`
-
-## Usage
-
-### Define registry items
-
-Create sidecar `.registry.ts` files next to your components:
+Each component in your shadcn registry will have a `.registry.ts` sidecar file alongside it that declares its schema and dependencies. They look something like this:
 
 ```ts
 // src/components/ui/button.registry.ts
-import { schema } from "@kojodesign/shadcn-tools;
+import { schema } from "@kojodesign/shadcn-tools";
 
 export default schema.ui({
   name: "button",
   files: [schema.files.ui("@/components/ui/button.tsx")],
   dependencies: ["lucide-react"],
-  registryDependencies: ["$utils"],
+  registryDependencies: ["button", "$utils"],
 });
 ```
+
+Unlike the standard JSON approach shadcn/ui recommends, there are some additional benefits here:
+
+1. Items can live alongside their components as opposed to a single `registry.json`, making them easier to discover and update in one place. 
+2. Less scaffolding by having type-safe helpers that automatically inject the correct item type fields
+3. Automatic TypeScript path resolution
+
+There are also some custom shortcuts to make your life easier when authoring these files:
+
+1. **Prefix any `registryDependency` with `$` to reference a component from your own registry.** This will automatically resolve to the full qualified remote path of your item at build time using your provided registry URL.
+2. **Reference any registry by namespace by adding it to the root `registries` field in `registry.ts`.** By default, namespaced (and non-namespaced) registry dependencies will be resolved against the shadcn upstream. If you are using another internal registry or one not published on the official shadcn website, you can alias it to avoid writing out a full `.json` path.
+3. **Included agent skills for maintenance.** This repo includes pre-made skill files you can hand to your agent to automatically audit and update your registry items once you modified any component.
+
+Once your items are defined, you can import them into your root `registry.ts`, which the `build-registry` command uses to discover your items:
+
+```ts
+// src/registry.ts
+import { schema } from "@kojodesign/shadcn-tools";
+
+schema.registry({
+  name: "my-registry",
+  homepage: "https://mine.example.com",
+  registries: { other: "https://other.example.com/r/{name}.json" },
+  items: [
+    schema.ui({
+      name: "fancy-button",
+      files: [schema.files.ui("@/components/ui/fancy-button.tsx")],
+      registryDependencies: ["$utils", "@other/card"],
+    }),
+  ],
+});
+```
+
+**Note:** If a custom registry does _not_ include a `{name}` placeholder in the URL, it will default to appending `/r/{name}.json` to the URL per shadcn convention.
+
+## Install
+
+This project assumes you already have a recent version of the `shadcn` CLI installed, as well as TypeScript (though it should work with plain JavaScript, too).
+
+```bash
+bun add @kojodesign/shadcn-tools
+yarn add @kojodesign/shadcn-tools
+npm install @kojodesign/shadcn-tools
+pnpm install @kojodesign/shadcn-tools
+```
+
+## Utility Reference
 
 ### Item helpers
 
@@ -66,65 +104,27 @@ export default schema.ui({
 | `schema.files.page(path, { target })` | Route/page files        |
 | `schema.files.file(path, { target })` | Misc files (env/config) |
 
-`@/` paths are resolved to `src/` automatically.
-
-### Aggregate into a registry
-
-```ts
-// registry.ts
-import { schema } from "@kojodesign/shadcn-tools;
-import button from "./src/components/ui/button.registry.ts";
-import utils from "./src/lib/utils.registry.ts";
-
-export default schema.registry({
-  name: "my-registry",
-  homepage: "https://my-registry.example.com",
-  items: [button, utils],
-});
-```
-
-### Registry dependencies
-
-- **`$name`** — references another item in the same registry. Resolved to `${homepage}/r/name.json` at build time.
-- **`@registry/name`** — cross-registry reference. Resolved via the `registries` map:
-
-  ```ts
-  schema.registry({
-    name: "my-registry",
-    homepage: "https://mine.example.com",
-    registries: { other: "https://other.example.com" },
-    items: [
-      schema.ui({
-        name: "fancy-button",
-        files: [schema.files.ui("@/components/ui/fancy-button.tsx")],
-        registryDependencies: ["$utils", "@other/card"],
-      }),
-    ],
-  });
-  ```
-
-- **Bare names** (e.g. `"button"`) — upstream shadcn components, passed through as-is.
-
 ## CLI
 
 ```bash
 build-registry <path/to/registry.(ts|js)> [-o <output-dir>]
 ```
 
-1. Loads the registry file via jiti (TypeScript and plain JavaScript both supported; tsconfig paths are respected when present)
-2. Writes `registry.json` next to the input file
-3. If `-o` is provided, runs `shadcn build` to produce individual item JSON files
+You can add a `build:registry` alias to your `package.json`:
 
-```bash
-# TypeScript
-build-registry registry.ts
-
-# Plain JavaScript (ESM)
-build-registry registry.js
-
-# Generate registry.json + per-item files in public/r/
-build-registry registry.ts -o public/r
+```json 
+{
+  "scripts": {
+    "build:registry": "build-registry src/registry.ts -o public/r"
+  }
+}
 ```
+
+Running this command does a few things:
+
+1. Loads the registry file and resolved aliases via [jiti](https://github.com/unjs/jiti)
+2. Writes `registry.json` next to the input file
+3. If `-o` is provided, runs `shadcn build` immediately afterwards to produce individual item JSON files from the main registry.json
 
 ## Agent Skills
 
