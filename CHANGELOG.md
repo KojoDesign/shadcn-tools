@@ -1,3 +1,11 @@
+# [1.1.0](https://github.com/KojoDesign/shadcn-tools/compare/v1.0.2...v1.1.0) (2026-05-11)
+
+
+### Features
+
+* **docs:** update README ([59b44bb](https://github.com/KojoDesign/shadcn-tools/commit/59b44bb5247f963f67176016481b2d41e97d48c1))
+* **docs:** update README ([49b47f8](https://github.com/KojoDesign/shadcn-tools/commit/49b47f81634c3d3aa375c5e17db6731095ad0f5f))
+
 ## [1.0.2](https://github.com/KojoDesign/shadcn-tools/compare/v1.0.1...v1.0.2) (2026-04-29)
 
 
