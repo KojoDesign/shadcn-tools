@@ -1,8 +1,9 @@
 <div align="center">
-  <img src="logo.svg" width="40px" alt="shadcn logo" />
+  <img src="logo.svg" width="48px" alt="shadcn logo" />
+
   <br/>
 
-# @kojodesign/shadcn-tools
+# shadcn-tools
 
   Type-safe helpers and a CLI for building [shadcn registries](https://ui.schema.com/docs/registry).
 </div>
@@ -27,7 +28,7 @@ Create sidecar `.registry.ts` files next to your components:
 
 ```ts
 // src/components/ui/button.registry.ts
-import { schema } from "@kojodesign/shadcn-tools;
+import { schema } from "@kojodesign/shadcn-tools";
 
 export default schema.ui({
   name: "button",
