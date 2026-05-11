@@ -1,3 +1,11 @@
+## [1.0.2](https://github.com/KojoDesign/shadcn-tools/compare/v1.0.1...v1.0.2) (2026-04-29)
+
+
+### Bug Fixes
+
+* fix package ([7248274](https://github.com/KojoDesign/shadcn-tools/commit/7248274cd2ac4f0a8fd356d0596daa1ac3bec7e1))
+* fix types ([8397c37](https://github.com/KojoDesign/shadcn-tools/commit/8397c37954e6cbb10ce548055cc229158e2b44dc))
+
 ## [1.0.1](https://github.com/KojoDesign/shadcn-tools/compare/v1.0.0...v1.0.1) (2026-04-22)
 
 
